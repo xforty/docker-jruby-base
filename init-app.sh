@@ -4,13 +4,6 @@ set -e
 
 cd /srv/app
 
-if [ -e log ]
-then
-  rm -rf log
-fi
-mkdir log
-chown app log
-
 mkdir .bundle vendor
 chown app .bundle vendor
 setuser app bash -lc 'bundle install --deployment'
