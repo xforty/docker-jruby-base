@@ -16,7 +16,7 @@ RUN setuser app bash -lc 'gem install foreman bundler'
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD init-webapp.sh /root/init-webapp.sh
+ADD init-app.sh /root/init-app.sh
 
-ONBUILD ADD . /home/app/webapp
-ONBUILD RUN bash /root/init-webapp.sh
+ONBUILD ADD . /srv/app
+ONBUILD RUN bash /root/init-app.sh
