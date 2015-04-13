@@ -10,6 +10,6 @@ setuser app bash -lc 'bundle install --deployment'
 chown root -R .bundle vendor
 
 TMP="$(setuser app mktemp -d)"
-setuser app bash -lc "foreman export -d /srv/app -u app -p 80 runit '$TMP'"
+setuser app bash -lc "foreman export -d /srv/app -u app -p 8000 runit '$TMP'"
 mv "$TMP"/* /etc/service
 rmdir "$TMP"
