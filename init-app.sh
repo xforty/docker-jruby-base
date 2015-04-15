@@ -4,13 +4,9 @@ set -e
 
 cd /srv/app
 
-mkdir .bundle vendor
-chown app .bundle vendor
+chown -R app .
 setuser app bash -lc 'bundle install --deployment'
-chown root -R .bundle vendor
 
-TMP="$(setuser app mktemp -d)"
-setuser app bash -lc "foreman export -d /srv/app -u app -p 8000 runit '$TMP'"
-sed -i "s|$TMP|/etc/service|g" "$TMP"/*/run
-mv "$TMP"/* /etc/service
-rmdir "$TMP"
+echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+setuser app bash -lc "rvmsudo_secure_path=1 rvmsudo foreman export -t /root/runit -d /srv/app -u app -p 8000 runit /etc/service"
+sed -i '$ d' /etc/sudoers

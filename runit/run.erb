@@ -1,0 +1,10 @@
+#!/bin/bash
+exec 2>&1
+if [ "$1" == "command" ]
+then
+  cd <%= engine.root %>
+  exec <%= process.command %>
+else
+  echo ~<%= user %> > <%= File.join(location, "#{process_directory}/env/HOME")  %>
+  exec chpst -u <%= user %> -e <%= File.join(location, "#{process_directory}/env")  %> bash -l <%= File.join(location, "#{process_directory}/run") %> command
+fi
